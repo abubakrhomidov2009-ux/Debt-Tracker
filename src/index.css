@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+/*
+  Design tokens — "Ledger" system.
+  A cool paper + ink palette (not the default warm-cream/terracotta look),
+  with a two-color accounting accent: emerald for credit ("they owe me"),
+  brick red for debit ("I owe them"), and a deep wire-blue for interactive
+  elements.
+*/
+@theme {
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-paper: #eff1ee;
+  --color-paper-raised: #f8f9f7;
+  --color-ink: #14181c;
+  --color-ink-soft: #4a5259;
+  --color-line: #d8dbd6;
+
+  --color-credit: #1f7a5c;
+  --color-credit-soft: #e3f0ea;
+  --color-debit: #b23a2e;
+  --color-debit-soft: #f5e6e3;
+  --color-wire: #2c4a7c;
+  --color-wire-soft: #e2e9f2;
+  --color-stamp: #a8701f;
+  --color-stamp-soft: #f3e8d6;
+
+  --color-paper-dark: #14171a;
+  --color-paper-dark-raised: #1b1f23;
+  --color-ink-dark: #ece9e2;
+  --color-line-dark: #2c3136;
+}
+
+html {
+  color-scheme: light dark;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+.dark body {
+  background-color: var(--color-paper-dark);
+  color: var(--color-ink-dark);
+}
+
+/* Tabular numerals for every amount in the ledger */
+.tabular-money {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* Hairline rule, the recurring structural device of the ledger motif */
+.ledger-rule {
+  border-color: var(--color-line);
+}
+.dark .ledger-rule {
+  border-color: var(--color-line-dark);
+}
+
+/* Ink-stamp style status badge */
+.stamp {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-width: 1.5px;
+  border-style: dashed;
+  border-radius: 4px;
+  padding: 0.125rem 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  transform: rotate(-1.2deg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-wire);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
