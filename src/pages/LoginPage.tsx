@@ -8,8 +8,6 @@ import {
   EyeOff,
   ArrowUpRight,
   ArrowDownLeft,
-  Mail,
-  Lock,
   ArrowRight,
 } from "lucide-react";
 import { login } from "../api/auth";

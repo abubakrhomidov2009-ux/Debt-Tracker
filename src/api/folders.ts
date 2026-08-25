@@ -14,10 +14,6 @@ export function createFolder(input: FolderInput) {
   return apiFetch<Folder>("/api/folders", { method: "POST", body: input });
 }
 
-export function getFolder(id: string) {
-  return apiFetch<Folder>(`/api/folders/${id}`);
-}
-
 export function updateFolder(id: string, input: FolderInput) {
   return apiFetch<Folder>(`/api/folders/${id}`, {
     method: "PATCH",

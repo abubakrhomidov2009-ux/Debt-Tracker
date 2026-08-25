@@ -20,11 +20,3 @@ export function login(input: { email: string; password: string }) {
     auth: false,
   });
 }
-
-export function logout(refreshToken: string) {
-  return apiFetch<{ message: string }>("/api/auth/logout", {
-    method: "POST",
-    body: { refreshToken },
-    auth: false,
-  });
-}

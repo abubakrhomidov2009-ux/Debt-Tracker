@@ -23,13 +23,6 @@ export function getContact(id: string) {
   return apiFetch<Contact>(`/api/contacts/${id}`);
 }
 
-export function updateContact(id: string, input: ContactInput) {
-  return apiFetch<Contact>(`/api/contacts/${id}`, {
-    method: "PATCH",
-    body: input,
-  });
-}
-
 export function deleteContact(id: string) {
   return apiFetch<void>(`/api/contacts/${id}`, { method: "DELETE" });
 }

@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import {  useAtomValue, useSetAtom } from "jotai";
 import clsx from "clsx";
 import {
   LayoutDashboard,
@@ -7,12 +7,9 @@ import {
   Users,
   Folder,
   User,
-  Sun,
-  Moon,
   LogOut,
   BookOpen,
 } from "lucide-react";
-import { themeAtom } from "../store/theme";
 import { userAtom, endSessionAtom } from "../store/auth";
 
 const navItems = [
@@ -24,14 +21,13 @@ const navItems = [
 ];
 
 export function AppShell() {
-  const [theme, setTheme] = useAtom(themeAtom);
   const user = useAtomValue(userAtom);
   const endSession = useSetAtom(endSessionAtom);
 
   const initial = user?.name?.trim()?.[0]?.toUpperCase() ?? "?";
 
   return (
-    <div className={clsx(theme === "dark" && "dark")}>
+    <div >
       <div className="min-h-screen bg-slate-50 text-slate-900 transition-colors duration-200 dark:bg-slate-950 dark:text-slate-100">
         <div className="mx-auto flex max-w-7xl">
           <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-slate-200/80 bg-white/50 px-5 py-6 backdrop-blur-md sm:flex dark:border-slate-800/80 dark:bg-slate-900/40">

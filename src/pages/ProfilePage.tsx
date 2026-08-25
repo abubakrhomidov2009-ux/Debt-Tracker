@@ -3,9 +3,7 @@ import type { FormEvent } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import {
   Check,
-  CheckCircle2,
   LogOut,
-  Mail,
   ShieldAlert,
   User as UserIcon,
   BookOpen,

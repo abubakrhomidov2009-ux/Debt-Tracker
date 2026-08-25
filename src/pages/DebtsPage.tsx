@@ -4,7 +4,6 @@ import { useAtom } from "jotai";
 import clsx from "clsx";
 import {
   Plus,
-  Receipt,
   Calendar,
   ChevronRight,
   Filter,
