@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from "react-router-dom";
-import {  useAtomValue, useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import clsx from "clsx";
 import {
   LayoutDashboard,
@@ -9,6 +9,8 @@ import {
   User,
   LogOut,
   BookOpen,
+  Sparkles,
+  Command,
 } from "lucide-react";
 import { userAtom, endSessionAtom } from "../store/auth";
 
@@ -27,28 +29,45 @@ export function AppShell() {
   const initial = user?.name?.trim()?.[0]?.toUpperCase() ?? "?";
 
   return (
-    <div >
-      <div className="min-h-screen bg-slate-50 text-slate-900 transition-colors duration-200 dark:bg-slate-950 dark:text-slate-100">
-        <div className="mx-auto flex max-w-7xl">
-          <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-slate-200/80 bg-white/50 px-5 py-6 backdrop-blur-md sm:flex dark:border-slate-800/80 dark:bg-slate-900/40">
-            <div className="mb-8 flex items-center gap-3 px-2">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-md shadow-indigo-600/20 dark:bg-indigo-500">
-                <BookOpen className="h-5 w-5" />
+    <div className="relative min-h-screen bg-slate-950 font-sans text-slate-100 antialiased selection:bg-cyan-500 selection:text-slate-950">
+      {/* Dynamic Background Mesh Gradients */}
+      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div className="absolute -top-[20%] left-[10%] h-[500px] w-[500px] rounded-full bg-gradient-to-br from-indigo-600/20 via-purple-600/10 to-transparent blur-[120px]" />
+        <div className="absolute top-[40%] -right-[10%] h-[600px] w-[600px] rounded-full bg-gradient-to-tl from-cyan-500/15 via-blue-600/10 to-transparent blur-[140px]" />
+        <div className="absolute -bottom-[10%] left-[20%] h-[500px] w-[500px] rounded-full bg-gradient-to-t from-emerald-500/10 to-transparent blur-[120px]" />
+      </div>
+
+      <div className="mx-auto flex max-w-[1600px] p-3 sm:p-6 lg:p-8">
+        {/* Floating Futuristic Sidebar */}
+        <aside className="sticky top-6 hidden h-[calc(100vh-3rem)] w-72 shrink-0 flex-col justify-between rounded-3xl border border-slate-800/80 bg-slate-900/40 p-5 shadow-2xl backdrop-blur-2xl sm:flex">
+          <div className="space-y-8">
+            {/* Holographic Brand Tag */}
+            <div className="flex items-center justify-between rounded-2xl border border-slate-800/80 bg-slate-900/60 p-3 shadow-inner">
+              <div className="flex items-center gap-3">
+                <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-cyan-400 p-[1px] shadow-lg shadow-indigo-500/20">
+                  <div className="flex h-full w-full items-center justify-center rounded-[11px] bg-slate-950">
+                    <BookOpen className="h-5 w-5 text-cyan-400" />
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-display text-base font-black tracking-wider text-white">
+                    LEDGER
+                  </span>
+                  <span className="text-[10px] font-semibold uppercase tracking-widest text-cyan-400/80">
+                    Control Center
+                  </span>
+                </div>
               </div>
-              <div className="flex flex-col leading-none">
-                <span className="font-display text-lg font-bold tracking-tight text-slate-900 dark:text-slate-100">
-                  Ledger
-                </span>
-                <span className="mt-1 text-[11px] font-medium text-slate-400 dark:text-slate-500">
-                  Keep the balance
-                </span>
-              </div>
+              <Sparkles className="h-4 w-4 text-amber-400 animate-pulse" />
             </div>
 
-            <nav className="flex flex-1 flex-col gap-1">
-              <span className="mb-2 px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                Menu
-              </span>
+            {/* Navigation Block */}
+            <nav className="space-y-1.5">
+              <div className="mb-3 flex items-center justify-between px-3 text-[10px] font-bold uppercase tracking-widest text-slate-500">
+                <span>Navigation</span>
+                <Command className="h-3 w-3" />
+              </div>
+
               {navItems.map((item) => {
                 const IconComponent = item.icon;
                 return (
@@ -58,101 +77,107 @@ export function AppShell() {
                     end={item.to === "/"}
                     className={({ isActive }) =>
                       clsx(
-                        "group relative flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all duration-200",
+                        "group relative flex items-center gap-3.5 rounded-2xl px-4 py-3 text-sm font-semibold transition-all duration-300",
                         isActive
-                          ? "bg-indigo-50 text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-400"
-                          : "text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-slate-100"
+                          ? "bg-gradient-to-r from-indigo-500/20 to-purple-500/10 text-white shadow-lg border border-indigo-500/30"
+                          : "text-slate-400 hover:bg-slate-800/40 hover:text-slate-200 border border-transparent"
                       )
                     }
                   >
                     {({ isActive }) => (
                       <>
-                        <span
+                        <div
                           className={clsx(
-                            "absolute left-0 top-1/2 h-5 w-1 -translate-y-1/2 rounded-r-full bg-indigo-600 transition-all duration-200 dark:bg-indigo-400",
-                            isActive ? "opacity-100 scale-100" : "opacity-0 scale-75"
-                          )}
-                          aria-hidden
-                        />
-                        <IconComponent
-                          className={clsx(
-                            "h-4 w-4 shrink-0 transition-colors duration-200",
+                            "flex h-8 w-8 items-center justify-center rounded-xl transition-all duration-300",
                             isActive
-                              ? "text-indigo-600 dark:text-indigo-400"
-                              : "text-slate-400 group-hover:text-slate-600 dark:text-slate-500 dark:group-hover:text-slate-300"
+                              ? "bg-indigo-500 text-white shadow-md shadow-indigo-500/40"
+                              : "bg-slate-800/60 text-slate-400 group-hover:bg-slate-800 group-hover:text-slate-200"
                           )}
-                        />
-                        <span>{item.label}</span>
+                        >
+                          <IconComponent className="h-4 w-4" />
+                        </div>
+                        <span className="tracking-wide">{item.label}</span>
+
+                        {isActive && (
+                          <span className="absolute right-3 h-2 w-2 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]" />
+                        )}
                       </>
                     )}
                   </NavLink>
                 );
               })}
             </nav>
+          </div>
 
-            <div className="flex flex-col gap-2 border-t border-slate-200/80 pt-4 dark:border-slate-800/80">
-             
-              <div className="flex items-center gap-3 rounded-xl px-3.5 py-2">
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-indigo-100 font-display text-xs font-bold text-indigo-700 ring-2 ring-indigo-50 dark:bg-indigo-950 dark:text-indigo-300 dark:ring-indigo-900/40">
-                  {initial}
-                </span>
-                <div className="min-w-0 leading-tight">
-                  <div className="text-[10px] font-medium text-slate-400 dark:text-slate-500">
-                    Signed in as
-                  </div>
-                  <div className="truncate text-xs font-semibold text-slate-800 dark:text-slate-200">
-                    {user?.name}
-                  </div>
+          {/* User Profile & Action Bar */}
+          <div className="space-y-3 rounded-2xl border border-slate-800/60 bg-slate-900/60 p-3 backdrop-blur-md">
+            <div className="flex items-center gap-3 p-1">
+              <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-500 to-cyan-400 font-display text-sm font-bold text-slate-950 shadow-md">
+                {initial}
+                <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-slate-950 bg-emerald-400" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                  Active Session
+                </div>
+                <div className="truncate text-xs font-bold text-slate-200">
+                  {user?.name}
                 </div>
               </div>
-
-              <button
-                onClick={() => endSession()}
-                className="flex items-center gap-3 rounded-xl px-3.5 py-2 text-left text-xs font-semibold text-rose-600 transition-colors duration-150 hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-950/40"
-              >
-                <LogOut className="h-4 w-4 stroke-[2.25]" />
-                <span>Log out</span>
-              </button>
             </div>
-          </aside>
 
-          <main className="min-h-screen flex-1 px-4 pb-28 pt-6 sm:px-8 sm:pb-10">
-            <Outlet />
-          </main>
+            <button
+              onClick={() => endSession()}
+              className="group flex w-full items-center justify-center gap-2 rounded-xl border border-rose-500/20 bg-rose-500/10 px-3 py-2 text-xs font-bold tracking-wide text-rose-400 transition-all duration-200 hover:border-rose-500/40 hover:bg-rose-500/20 hover:text-rose-300 active:scale-95"
+            >
+              <LogOut className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
+              <span>Log out</span>
+            </button>
+          </div>
+        </aside>
 
-          <nav className="fixed inset-x-0 bottom-0 z-40 flex items-center justify-around border-t border-slate-200/80 bg-white/90 px-2 py-2 shadow-lg backdrop-blur-lg sm:hidden dark:border-slate-800/80 dark:bg-slate-900/90">
-            {navItems.map((item) => {
-              const IconComponent = item.icon;
-              return (
-                <NavLink
-                  key={item.to}
-                  to={item.to}
-                  end={item.to === "/"}
-                  className={({ isActive }) =>
-                    clsx(
-                      "flex flex-1 flex-col items-center gap-1 rounded-xl py-1.5 text-[10px] font-semibold transition-colors duration-150",
-                      isActive
-                        ? "text-indigo-600 dark:text-indigo-400"
-                        : "text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300"
-                    )
-                  }
-                >
-                  {({ isActive }) => (
-                    <>
-                      <IconComponent
-                        className={clsx(
-                          "h-5 w-5 transition-transform duration-150",
-                          isActive && "scale-110 stroke-[2.25]"
-                        )}
-                      />
-                      <span>{item.label}</span>
-                    </>
-                  )}
-                </NavLink>
-              );
-            })}
-          </nav>
-        </div>
+        {/* Main Content Workspace */}
+        <main className="min-h-[calc(100vh-3rem)] flex-1 px-2 pb-28 pt-2 sm:px-6 sm:pb-8 sm:pt-0">
+          <Outlet />
+        </main>
+
+        {/* Mobile Futuristic Bottom Navigation Bar */}
+        <nav className="fixed bottom-4 left-4 right-4 z-50 flex items-center justify-around rounded-2xl border border-slate-800/80 bg-slate-900/80 p-2 shadow-2xl backdrop-blur-xl sm:hidden">
+          {navItems.map((item) => {
+            const IconComponent = item.icon;
+            return (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.to === "/"}
+                className={({ isActive }) =>
+                  clsx(
+                    "relative flex flex-1 flex-col items-center gap-1 rounded-xl py-2 text-[10px] font-bold tracking-wider transition-all duration-300",
+                    isActive
+                      ? "text-cyan-400"
+                      : "text-slate-500 hover:text-slate-300"
+                  )
+                }
+              >
+                {({ isActive }) => (
+                  <>
+                    <div
+                      className={clsx(
+                        "flex h-8 w-8 items-center justify-center rounded-xl transition-all duration-300",
+                        isActive
+                          ? "bg-cyan-500/20 text-cyan-400 shadow-lg shadow-cyan-500/20"
+                          : "bg-transparent"
+                      )}
+                    >
+                      <IconComponent className="h-4 w-4" />
+                    </div>
+                    <span>{item.label}</span>
+                  </>
+                )}
+              </NavLink>
+            );
+          })}
+        </nav>
       </div>
     </div>
   );
