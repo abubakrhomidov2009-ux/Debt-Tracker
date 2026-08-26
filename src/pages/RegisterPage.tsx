@@ -10,6 +10,9 @@ import {
   Circle,
   ArrowRight,
   UserPlus,
+  Sparkles,
+  ShieldCheck,
+  Zap,
 } from "lucide-react";
 import { register } from "../api/auth";
 import { ApiError } from "../api/client";
@@ -19,9 +22,9 @@ import { Button } from "../components/Button";
 import { ErrorBanner } from "../components/Feedback";
 
 const onboardingSteps = [
-  { label: "Add the people you owe or lend to", done: true },
-  { label: "Log your first debt", done: true },
-  { label: "Settle up when you're square", done: false },
+  { label: "Add entities & peers", done: true },
+  { label: "Initialize ledger entry", done: true },
+  { label: "Automated balance settlement", done: false },
 ];
 
 function passwordStrength(pw: string) {
@@ -32,7 +35,7 @@ function passwordStrength(pw: string) {
   if (/\d/.test(pw)) score++;
   if (/[^A-Za-z0-9]/.test(pw)) score++;
   const level = Math.min(score, 4);
-  const labels = ["Too short", "Weak", "Okay", "Good", "Strong"];
+  const labels = ["Insufficient", "Weak Key", "Moderate", "Optimal", "Encrypted"];
   return { level, label: pw ? labels[level] : "" };
 }
 
@@ -57,7 +60,7 @@ export function RegisterPage() {
     setError(null);
 
     if (password !== confirm) {
-      setError("Passwords don't match.");
+      setError("Access keys do not match.");
       return;
     }
 
@@ -76,76 +79,75 @@ export function RegisterPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-50 text-slate-900 transition-colors duration-200 dark:bg-slate-950 dark:text-slate-100">
-      <style>{`
-        @keyframes fadeSlideUp {
-          from { opacity: 0; transform: translateY(12px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        .ledger-card { animation: fadeSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both; }
-        .ledger-row { animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
-      `}</style>
+    <div className="relative flex min-h-screen w-screen overflow-hidden bg-slate-950 text-slate-100 selection:bg-cyan-500 selection:text-slate-950">
+      {/* Dynamic Futuristic HUD Grid Backdrop */}
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-40" />
+      <div className="pointer-events-none absolute top-0 left-1/2 -z-10 h-[600px] w-full -translate-x-1/2 bg-gradient-to-b from-indigo-500/10 via-cyan-500/5 to-transparent blur-3xl" />
 
-      {/* Ledger sheet side panel — desktop/laptop only */}
-      <div className="relative hidden w-[45%] max-w-lg shrink-0 flex-col justify-between overflow-hidden bg-slate-900 px-10 py-12 text-slate-100 shadow-2xl lg:flex dark:bg-slate-950">
-        {/* Subtle background ruling effect */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.05]"
-          style={{
-            backgroundImage:
-              "repeating-linear-gradient(to bottom, currentColor 0, currentColor 1px, transparent 1px, transparent 32px)",
-          }}
-          aria-hidden
-        />
+      {/* Futuristic Ledger Side Panel — Desktop/Laptop only */}
+      <div className="relative hidden w-[48%] max-w-xl shrink-0 flex-col justify-between border-r border-slate-800/80 bg-slate-900/40 p-8 xl:p-12 text-slate-100 backdrop-blur-2xl lg:flex">
+        {/* Glow Spheres */}
+        <div className="pointer-events-none absolute -top-20 -left-20 h-80 w-80 rounded-full bg-cyan-500/15 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-20 -right-20 h-80 w-80 rounded-full bg-indigo-500/15 blur-3xl" />
 
-        {/* Ambient background accent glow */}
-        <div className="pointer-events-none absolute -left-16 -top-16 h-64 w-64 rounded-full bg-indigo-600/20 blur-3xl" />
-
-        <div className="relative">
-          <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 dark:bg-indigo-500">
-              <BookOpen className="h-5 w-5" />
+        <div className="relative z-10 space-y-8 xl:space-y-12">
+          {/* Header Branding */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="relative flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-tr from-cyan-500 to-indigo-600 text-white shadow-lg shadow-indigo-500/20 border border-cyan-400/30">
+                <BookOpen className="h-5 w-5" />
+              </div>
+              <span className="font-display text-2xl font-black tracking-tight text-white">
+                Ledger<span className="text-cyan-400">.</span>
+              </span>
             </div>
-            <span className="font-display text-xl font-bold tracking-tight text-white">
-              Ledger
-            </span>
+            <div className="flex items-center gap-2 rounded-full border border-slate-800 bg-slate-950/60 px-3 py-1 font-mono text-[10px] font-bold text-slate-400">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              INITIALIZATION
+            </div>
           </div>
 
-          <h1 className="mt-14 font-display text-3xl font-bold leading-tight tracking-tight text-white xl:text-4xl">
-            Set the record straight,
-            <br />
-            <span className="text-indigo-400">starting today.</span>
-          </h1>
-          <p className="mt-4 max-w-xs text-sm font-medium leading-relaxed text-slate-400">
-            A minute of setup buys you an end to "wait, who paid last time?" — for good.
-          </p>
+          {/* Hero Typography */}
+          <div className="space-y-4">
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 font-mono text-xs font-bold uppercase tracking-wider text-cyan-300">
+              <Sparkles className="h-3.5 w-3.5" />
+              <span>Identity Generation</span>
+            </div>
+            <h1 className="font-display text-3xl font-black leading-tight tracking-tight text-white xl:text-4xl">
+              Set the record straight,
+              <br />
+              <span className="bg-gradient-to-r from-cyan-400 via-indigo-300 to-indigo-500 bg-clip-text text-transparent">
+                starting today.
+              </span>
+            </h1>
+            <p className="max-w-md text-sm font-medium leading-relaxed text-slate-400">
+              Establish your vault record and permanently settle financial tracking across your network.
+            </p>
+          </div>
         </div>
 
         {/* Onboarding steps preview card */}
-        <div className="relative">
-          <span className="mb-3 block text-[10px] font-bold uppercase tracking-wider text-slate-400">
-            Once you're in
-          </span>
-          <div className="divide-y divide-slate-800/80 rounded-2xl border border-slate-800 bg-slate-900/60 p-1.5 backdrop-blur-md">
-            {onboardingSteps.map((step, i) => (
+        <div className="relative z-10 space-y-3">
+          <div className="flex items-center justify-between font-mono text-[10px] font-bold uppercase tracking-widest text-slate-500">
+            <span>Initialization Protocol</span>
+            <span className="text-cyan-400/80">3 Core Tasks</span>
+          </div>
+
+          <div className="space-y-2 rounded-3xl border border-slate-800/80 bg-slate-950/60 p-2.5 backdrop-blur-xl shadow-2xl">
+            {onboardingSteps.map((step) => (
               <div
                 key={step.label}
-                className="ledger-row flex items-center gap-3 px-3.5 py-3"
-                style={{ animationDelay: `${150 + i * 100}ms` }}
+                className="group flex items-center gap-3.5 rounded-2xl border border-slate-900 bg-slate-900/40 px-4 py-3 transition-all duration-300 hover:border-slate-800 hover:bg-slate-900/80"
               >
                 {step.done ? (
                   <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-400" />
                 ) : (
-                  <Circle className="h-5 w-5 shrink-0 text-slate-500" />
+                  <Circle className="h-5 w-5 shrink-0 text-slate-600" />
                 )}
                 <span
                   className={
-                    "text-sm font-medium " +
-                    (step.done ? "text-slate-400 line-through" : "text-slate-200")
+                    "font-mono text-xs font-medium " +
+                    (step.done ? "text-slate-500 line-through" : "text-slate-200")
                   }
                 >
                   {step.label}
@@ -153,50 +155,58 @@ export function RegisterPage() {
               </div>
             ))}
           </div>
+
+          {/* System status pill */}
+          <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 pt-2">
+            <span className="flex items-center gap-1">
+              <ShieldCheck className="h-3.5 w-3.5 text-cyan-400" /> End-to-End Vault
+            </span>
+            <span className="flex items-center gap-1">
+              <Zap className="h-3.5 w-3.5 text-indigo-400" /> Zero Overhead
+            </span>
+          </div>
         </div>
       </div>
 
       {/* Main Registration Form Panel */}
-      <div className="flex flex-1 items-center justify-center px-4 py-12 sm:px-8">
-        <div className="w-full max-w-md">
+      <div className="flex flex-1 items-center justify-center p-4 sm:p-8">
+        <div className="w-full max-w-md space-y-5">
           {/* Mobile Header Branding */}
-          <div className="mb-8 text-center lg:hidden">
-            <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-md shadow-indigo-600/20 dark:bg-indigo-500">
-              <BookOpen className="h-5 w-5" />
+          <div className="text-center lg:hidden space-y-2">
+            <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-cyan-500 to-indigo-600 text-white shadow-lg shadow-indigo-500/30 border border-cyan-400/30">
+              <BookOpen className="h-6 w-6" />
             </div>
-            <h1 className="mt-3 font-display text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-              Ledger
+            <h1 className="font-display text-3xl font-black tracking-tight text-white">
+              Ledger<span className="text-cyan-400">.</span>
             </h1>
-            <p className="mt-1 text-xs font-medium text-slate-500 dark:text-slate-400">
-              Open a new account — takes a minute.
+            <p className="text-xs font-mono text-slate-400">
+              Initialize new ledger profile
             </p>
           </div>
 
-          {/* Desktop Heading */}
-          <div className="mb-6 hidden text-center lg:block">
-            <h2 className="font-display text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-              Create your account
+          {/* Desktop Form Heading */}
+          <div className="hidden space-y-1 lg:block">
+            <h2 className="font-display text-2xl font-black tracking-tight text-white xl:text-3xl">
+              Create Account
             </h2>
-            <p className="mt-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
-              Free, and takes less than a minute.
+            <p className="text-xs font-mono text-slate-400">
+              Generate credentials for system authorization.
             </p>
           </div>
 
+          {/* Core Registration Card */}
           <form
             onSubmit={handleSubmit}
-            className="ledger-card relative flex flex-col gap-4 overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-8"
+            className="group relative flex flex-col gap-3.5 overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/40 p-5 sm:p-6 backdrop-blur-xl shadow-2xl transition-all duration-300 hover:border-slate-700"
           >
-            {/* Gradient Top Bar */}
-            <span
-              className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-400"
-              aria-hidden
-            />
+            {/* Top Holographic Laser Line */}
+            <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-indigo-500" />
 
             {error && <ErrorBanner message={error} />}
 
             <div className="space-y-1">
               <Input
-                label="Name"
+                label="Full Identity Name"
                 autoComplete="name"
                 required
                 value={name}
@@ -206,7 +216,7 @@ export function RegisterPage() {
 
             <div className="space-y-1">
               <Input
-                label="Email"
+                label="Email Terminal"
                 type="email"
                 autoComplete="email"
                 required
@@ -217,21 +227,21 @@ export function RegisterPage() {
 
             <div>
               <div className="flex items-center justify-between pb-1">
-                <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                  Password
+                <label className="font-mono text-xs font-bold uppercase tracking-wider text-slate-400">
+                  Access Key
                 </label>
                 <button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
-                  className="flex items-center gap-1 text-xs font-semibold text-indigo-600 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/40 rounded dark:text-indigo-400 dark:hover:text-indigo-300"
+                  className="flex items-center gap-1.5 font-mono text-xs font-bold text-cyan-400 hover:text-cyan-300 transition-colors focus-visible:outline-none"
                 >
                   {showPassword ? (
                     <>
-                      <EyeOff className="h-3.5 w-3.5" /> Hide
+                      <EyeOff className="h-3.5 w-3.5" /> HIDE
                     </>
                   ) : (
                     <>
-                      <Eye className="h-3.5 w-3.5" /> Show
+                      <Eye className="h-3.5 w-3.5" /> SHOW
                     </>
                   )}
                 </button>
@@ -247,7 +257,7 @@ export function RegisterPage() {
               />
 
               {password && (
-                <div className="mt-2.5">
+                <div className="mt-2 space-y-1">
                   <div className="flex h-1.5 gap-1.5">
                     {[0, 1, 2, 3].map((i) => (
                       <span
@@ -259,14 +269,14 @@ export function RegisterPage() {
                               ? "bg-rose-500"
                               : strength.level === 2
                                 ? "bg-amber-400"
-                                : "bg-emerald-500"
-                            : "bg-slate-100 dark:bg-slate-800")
+                                : "bg-emerald-400"
+                            : "bg-slate-800")
                         }
                       />
                     ))}
                   </div>
-                  <span className="mt-1.5 block text-xs font-semibold text-slate-500 dark:text-slate-400">
-                    {strength.label}
+                  <span className="block font-mono text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    Strength: {strength.label}
                   </span>
                 </div>
               )}
@@ -274,7 +284,7 @@ export function RegisterPage() {
 
             <div>
               <Input
-                label="Confirm password"
+                label="Confirm Access Key"
                 type={showPassword ? "text" : "password"}
                 autoComplete="new-password"
                 required
@@ -284,15 +294,11 @@ export function RegisterPage() {
               {confirmTouched && (
                 <span
                   className={
-                    "mt-1.5 block text-xs font-semibold " +
-                    (confirmMatches
-                      ? "text-emerald-600 dark:text-emerald-400"
-                      : "text-rose-500 dark:text-rose-400")
+                    "mt-1 block font-mono text-[10px] font-bold uppercase tracking-wider " +
+                    (confirmMatches ? "text-emerald-400" : "text-rose-400")
                   }
                 >
-                  {confirmMatches
-                    ? "Passwords match"
-                    : "Passwords don't match yet"}
+                  {confirmMatches ? "Keys match" : "Keys do not match"}
                 </span>
               )}
             </div>
@@ -300,23 +306,24 @@ export function RegisterPage() {
             <Button
               type="submit"
               loading={submitting}
-              className="mt-2 w-full justify-center shadow-sm"
+              className="mt-1 w-full justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-500 to-indigo-600 py-3 font-mono text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-cyan-500/20 hover:from-cyan-400 hover:to-indigo-500 transition-all duration-300"
             >
-              <UserPlus className="mr-1.5 h-4 w-4" />
-              Create account
+              <UserPlus className="h-4 w-4" />
+              <span>Initialize Profile</span>
             </Button>
           </form>
 
-          <p className="mt-6 text-center text-xs font-medium text-slate-500 dark:text-slate-400">
-            Already have an account?{" "}
+          {/* Account Login Link Footer */}
+          <div className="text-center font-mono text-xs text-slate-500">
+            Registered entity?{" "}
             <Link
               to="/login"
-              className="inline-flex items-center gap-0.5 font-bold text-indigo-600 hover:underline dark:text-indigo-400"
+              className="inline-flex items-center gap-1 font-bold text-cyan-400 hover:text-cyan-300 transition-colors"
             >
-              Log in
+              Access Console
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
-          </p>
+          </div>
         </div>
       </div>
     </div>

@@ -9,6 +9,8 @@ import {
   ArrowUpRight,
   ArrowDownLeft,
   ArrowRight,
+  Sparkles,
+  Lock,
 } from "lucide-react";
 import { login } from "../api/auth";
 import { ApiError } from "../api/client";
@@ -52,79 +54,79 @@ export function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-50 text-slate-900 transition-colors duration-200 dark:bg-slate-950 dark:text-slate-100">
-      <style>{`
-        @keyframes fadeSlideUp {
-          from { opacity: 0; transform: translateY(12px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        .ledger-card { animation: fadeSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both; }
-        .ledger-row { animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
-      `}</style>
+    <div className="relative flex min-h-screen bg-slate-950 text-slate-100 selection:bg-cyan-500 selection:text-slate-950">
+      {/* Dynamic Futuristic HUD Grid Backdrop */}
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-40" />
+      <div className="pointer-events-none absolute top-0 left-1/2 -z-10 h-[600px] w-full -translate-x-1/2 bg-gradient-to-b from-indigo-500/10 via-cyan-500/5 to-transparent blur-3xl" />
 
-      {/* Ledger sheet side panel — desktop/laptop only */}
-      <div className="relative hidden w-[45%] max-w-lg shrink-0 flex-col justify-between overflow-hidden bg-slate-900 px-10 py-12 text-slate-100 shadow-2xl lg:flex dark:bg-slate-950">
-        {/* Subtle background ruling effect */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.05]"
-          style={{
-            backgroundImage:
-              "repeating-linear-gradient(to bottom, currentColor 0, currentColor 1px, transparent 1px, transparent 32px)",
-          }}
-          aria-hidden
-        />
+      {/* Futuristic Ledger Side Panel — Desktop/Laptop only */}
+      <div className="relative h-screen hidden w-[48%] max-w-xl shrink-0 flex-col justify-between overflow-hidden border-r border-slate-800/80 bg-slate-900/40 p-12 text-slate-100 backdrop-blur-2xl lg:flex">
+        {/* Glow Spheres */}
+        <div className="pointer-events-none absolute -top-20 -left-20 h-80 w-80 rounded-full bg-cyan-500/15 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-20 -right-20 h-80 w-80 rounded-full bg-indigo-500/15 blur-3xl" />
 
-        {/* Ambient background accent glow */}
-        <div className="pointer-events-none absolute -left-16 -top-16 h-64 w-64 rounded-full bg-indigo-600/20 blur-3xl" />
-
-        <div className="relative">
-          <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 dark:bg-indigo-500">
-              <BookOpen className="h-5 w-5" />
+        <div className="relative z-10 space-y-12">
+          {/* Header Branding */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="relative flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-tr from-cyan-500 to-indigo-600 text-white shadow-lg shadow-indigo-500/20 border border-cyan-400/30">
+                <BookOpen className="h-5 w-5" />
+              </div>
+              <span className="font-display text-2xl font-black tracking-tight text-white">
+                Ledger<span className="text-cyan-400">.</span>
+              </span>
             </div>
-            <span className="font-display text-xl font-bold tracking-tight text-white">
-              Ledger
-            </span>
+            <div className="flex items-center gap-2 rounded-full border border-slate-800 bg-slate-950/60 px-3 py-1 font-mono text-[10px] font-bold text-slate-400">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              SYSTEM ACTIVE
+            </div>
           </div>
 
-          <h1 className="mt-14 font-display text-3xl font-bold leading-tight tracking-tight text-white xl:text-4xl">
-            Every debt remembered.
-            <br />
-            <span className="text-indigo-400">Every favor returned.</span>
-          </h1>
-          <p className="mt-4 max-w-xs text-sm font-medium leading-relaxed text-slate-400">
-            One shared record for the money that moves between friends —
-            no more guessing who covered what.
-          </p>
+          {/* Hero Typography */}
+          <div className="space-y-4">
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 font-mono text-xs font-bold uppercase tracking-wider text-cyan-300">
+              <Sparkles className="h-3.5 w-3.5" />
+              <span>Smart Debt Matrix</span>
+            </div>
+            <h1 className="font-display text-4xl font-black leading-tight tracking-tight text-white xl:text-5xl">
+              Every debt remembered.
+              <br />
+              <span className="bg-gradient-to-r from-cyan-400 via-indigo-300 to-indigo-500 bg-clip-text text-transparent">
+                Every favor returned.
+              </span>
+            </h1>
+            <p className="max-w-md text-sm font-medium leading-relaxed text-slate-400">
+              One transparent, cryptographically aligned record for capital that moves between friends.
+            </p>
+          </div>
         </div>
 
-        {/* Sample ledger entries preview card */}
-        <div className="relative">
-          <span className="mb-3 block text-[10px] font-bold uppercase tracking-wider text-slate-400">
-            Recent entries
-          </span>
-          <div className="divide-y divide-slate-800/80 rounded-2xl border border-slate-800 bg-slate-900/60 p-1.5 backdrop-blur-md">
-            {sampleEntries.map((entry, i) => (
+        {/* Live Entries Widget Preview */}
+        <div className="relative z-10 space-y-3">
+          <div className="flex items-center justify-between font-mono text-[10px] font-bold uppercase tracking-widest text-slate-500">
+            <span>Real-time Stream</span>
+            <span className="text-cyan-400/80">3 Active Transits</span>
+          </div>
+
+          <div className="space-y-2 rounded-3xl border border-slate-800/80 bg-slate-950/60 p-2.5 backdrop-blur-xl shadow-2xl">
+            {sampleEntries.map((entry) => (
               <div
                 key={entry.name}
-                className="ledger-row flex items-center justify-between px-3.5 py-3"
-                style={{ animationDelay: `${150 + i * 100}ms` }}
+                className="group flex items-center justify-between rounded-2xl border border-slate-900 bg-slate-900/40 px-4 py-3 transition-all duration-300 hover:border-slate-800 hover:bg-slate-900/80"
               >
-                <div className="flex items-center gap-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-800 text-slate-300">
+                <div className="flex items-center gap-3.5">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-800 bg-slate-950 text-slate-300 transition-colors group-hover:border-cyan-500/40">
                     {entry.direction === "credit" ? (
                       <ArrowDownLeft className="h-4 w-4 text-emerald-400" />
                     ) : (
-                      <ArrowUpRight className="h-4 w-4 text-slate-400" />
+                      <ArrowUpRight className="h-4 w-4 text-rose-400" />
                     )}
                   </div>
                   <div>
-                    <div className="text-sm font-semibold text-slate-200">{entry.name}</div>
-                    <div className="text-xs text-slate-400">{entry.note}</div>
+                    <div className="text-sm font-bold text-slate-200 transition-colors group-hover:text-cyan-300">
+                      {entry.name}
+                    </div>
+                    <div className="font-mono text-xs text-slate-500">{entry.note}</div>
                   </div>
                 </div>
                 <span className={clsxAmount(entry.direction)}>
@@ -133,47 +135,50 @@ export function LoginPage() {
               </div>
             ))}
           </div>
+
+          
         </div>
       </div>
 
       {/* Main Login Form Panel */}
-      <div className="flex flex-1 items-center justify-center px-4 py-12 sm:px-8">
-        <div className="w-full max-w-md">
+      <div className="flex flex-1 items-center justify-center p-6 sm:p-12">
+        <div className="w-full max-w-md space-y-8">
           {/* Mobile Header Branding */}
-          <div className="mb-8 text-center lg:hidden">
-            <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-md shadow-indigo-600/20 dark:bg-indigo-500">
-              <BookOpen className="h-5 w-5" />
+          <div className="text-center lg:hidden space-y-2">
+            <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-cyan-500 to-indigo-600 text-white shadow-lg shadow-indigo-500/30 border border-cyan-400/30">
+              <BookOpen className="h-6 w-6" />
             </div>
-            <h1 className="mt-3 font-display text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-              Ledger
+            <h1 className="font-display text-3xl font-black tracking-tight text-white">
+              Ledger<span className="text-cyan-400">.</span>
             </h1>
-            <p className="mt-1 text-xs font-medium text-slate-500 dark:text-slate-400">
-              Keep every IOU in one place.
+            <p className="text-xs font-mono text-slate-400">
+              Zero-friction IOU management
             </p>
           </div>
 
-          {/* Desktop Heading */}
-          <div className="mb-6 hidden text-center lg:block">
-            <h2 className="font-display text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-              Welcome back
+          {/* Desktop Form Heading */}
+          <div className="hidden space-y-1.5 lg:block">
+            <h2 className="font-display text-3xl font-black tracking-tight text-white">
+              Access Console
             </h2>
-            <p className="mt-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
-              Log in to see where things stand.
+            <p className="text-xs font-mono text-slate-400">
+              Authenticate your identity to view ledger status.
             </p>
           </div>
 
+          {/* Core Login Card */}
           <form
             onSubmit={handleSubmit}
-            className="ledger-card relative flex flex-col gap-4 overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-8"
+            className="group relative flex flex-col gap-5 overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-xl shadow-2xl transition-all duration-300 hover:border-slate-700"
           >
-            {/* Gradient Top Line */}
-            <span className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-400" aria-hidden />
+            {/* Top Holographic Laser Line */}
+            <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-indigo-500" />
 
             {error && <ErrorBanner message={error} />}
 
             <div className="space-y-1">
               <Input
-                label="Email"
+                label="Email Terminal"
                 type="email"
                 autoComplete="email"
                 required
@@ -183,22 +188,22 @@ export function LoginPage() {
             </div>
 
             <div>
-              <div className="flex items-center justify-between pb-1">
-                <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                  Password
+              <div className="flex items-center justify-between pb-1.5">
+                <label className="font-mono text-xs font-bold uppercase tracking-wider text-slate-400">
+                  Access Key
                 </label>
                 <button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
-                  className="flex items-center gap-1 text-xs font-semibold text-indigo-600 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/40 rounded dark:text-indigo-400 dark:hover:text-indigo-300"
+                  className="flex items-center gap-1.5 font-mono text-xs font-bold text-cyan-400 hover:text-cyan-300 transition-colors focus-visible:outline-none"
                 >
                   {showPassword ? (
                     <>
-                      <EyeOff className="h-3.5 w-3.5" /> Hide
+                      <EyeOff className="h-3.5 w-3.5" /> HIDE
                     </>
                   ) : (
                     <>
-                      <Eye className="h-3.5 w-3.5" /> Show
+                      <Eye className="h-3.5 w-3.5" /> SHOW
                     </>
                   )}
                 </button>
@@ -213,36 +218,45 @@ export function LoginPage() {
               />
             </div>
 
-            <div className="flex items-center justify-between pt-1 text-xs font-medium">
-              <label className="flex items-center gap-2 text-slate-600 dark:text-slate-400 cursor-pointer">
+            <div className="flex items-center justify-between pt-1 font-mono text-xs">
+              <label className="flex items-center gap-2.5 text-slate-400 cursor-pointer hover:text-slate-200 transition-colors">
                 <input
                   type="checkbox"
                   checked={remember}
                   onChange={(e) => setRemember(e.target.checked)}
-                  className="h-4 w-4 rounded border-slate-300 text-indigo-600 accent-indigo-600 focus-visible:ring-2 focus-visible:ring-indigo-500/40 dark:border-slate-700"
+                  className="h-4 w-4 rounded border-slate-700 bg-slate-950 text-cyan-500 accent-cyan-500 focus:ring-cyan-500/40"
                 />
-                Remember me
+                Remember Terminal
               </label>
               <Link
                 to="/forgot-password"
-                className="font-semibold text-indigo-600 hover:underline dark:text-indigo-400"
+                className="font-bold text-indigo-400 hover:text-indigo-300 transition-colors"
               >
-                Forgot password?
+                Forgot key?
               </Link>
             </div>
 
-            <Button type="submit" loading={submitting} className="mt-2 w-full justify-center shadow-sm">
-              Log in
+            <Button
+              type="submit"
+              loading={submitting}
+              className="mt-2 w-full justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-500 to-indigo-600 py-3.5 font-mono text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-cyan-500/20 hover:from-cyan-400 hover:to-indigo-500 transition-all duration-300"
+            >
+              <Lock className="h-4 w-4" />
+              <span>Authenticate</span>
             </Button>
           </form>
 
-          <p className="mt-6 text-center text-xs font-medium text-slate-500 dark:text-slate-400">
-            New here?{" "}
-            <Link to="/register" className="inline-flex items-center gap-0.5 font-bold text-indigo-600 hover:underline dark:text-indigo-400">
-              Create an account
+          {/* Account Creation Footer */}
+          <div className="text-center font-mono text-xs text-slate-500">
+            Unregistered entity?{" "}
+            <Link
+              to="/register"
+              className="inline-flex items-center gap-1 font-bold text-cyan-400 hover:text-cyan-300 transition-colors"
+            >
+              Initialize Account
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
-          </p>
+          </div>
         </div>
       </div>
     </div>
@@ -251,6 +265,6 @@ export function LoginPage() {
 
 function clsxAmount(direction: "credit" | "debit") {
   return direction === "credit"
-    ? "font-display text-sm font-semibold text-emerald-400"
-    : "font-display text-sm font-semibold text-slate-300";
+    ? "font-mono text-sm font-bold text-emerald-400"
+    : "font-mono text-sm font-bold text-rose-400";
 }
